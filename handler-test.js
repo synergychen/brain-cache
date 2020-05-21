@@ -5,7 +5,8 @@ console.log(
   handler.search(
     {
       body: JSON.stringify({
-        query: 'one',
+        query: 'test|one|two',
+        limit: 10
       }),
       pathParameters: {
       },

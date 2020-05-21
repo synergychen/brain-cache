@@ -3,17 +3,20 @@ const { successResponse, errorResponse } = require('./handler-helpers')
 
 module.exports.search = async (event) => {
   try {
-    const { query } = JSON.parse(event.body)
+    const resultsLimit = 10
+    const { query, limit = resultsLimit } = JSON.parse(event.body)
     const models = await connection()
     const results = await models.sequelize.query(
       `
-      SELECT *
-      FROM ${models.Page.tableName}
-      WHERE _search @@ plainto_tsquery('english', :query);
+      SELECT title, content, ts_rank_cd(_search, query) AS rank
+      FROM pages, to_tsquery(:query) query
+      WHERE query @@ _search
+      ORDER BY rank DESC
+      LIMIT :limit;
       `,
       {
         model: models.Author,
-        replacements: { query: query },
+        replacements: { query, limit },
       }
     )
     return successResponse(results)
