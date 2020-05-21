@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "local": "node handler-test.js",
+    "deploy": "serverless deploy --stage production",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:rollback": "npx sequelize-cli db:migrate:undo",
     "db:seed": "npx sequelize-cli db:seed:all",

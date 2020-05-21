@@ -1,0 +1,25 @@
+service: brain-cache
+custom:
+  secrets: ${file(secrets.json)}
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  httpApi:
+    cors: true
+  environment:
+    DB_NAME: ${self:custom.secrets.DB_NAME}
+    DB_USERNAME: ${self:custom.secrets.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.secrets.DB_PASSWORD}
+    DB_HOST: ${self:custom.secrets.DB_HOST}
+    DB_PORT: ${self:custom.secrets.DB_PORT}
+functions:
+  # Meal Plan
+  search:
+    handler: handler.search
+    name: ${self:service}-search
+    events:
+      - http:
+          path: search
+          method: post
+          cors: true

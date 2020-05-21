@@ -1,20 +1,19 @@
-const models = require('./models/index')
+require('dotenv').config()
+const handler = require('./handler')
 
-const search = async function search(query) {
-  const results = await models.sequelize.query(
-    `
-    SELECT *
-    FROM ${models.Page.tableName}
-    WHERE _search @@ plainto_tsquery('english', :query);
-  `,
+console.log(
+  handler.search(
     {
-      model: models.Author,
-      replacements: { query: query },
+      body: JSON.stringify({
+        query: 'one',
+      }),
+      pathParameters: {
+      },
+    }, // event
+    {}, //content
+    function (data, ss) {
+      //callback function with two arguments
+      console.log(data, ss)
     }
   )
-  console.log(results)
-
-  return results
-}
-
-search('one')
+)

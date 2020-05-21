@@ -34,4 +34,18 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = async () => {
+  if (db.isConnected) {
+    console.log('=> Using existing connection.')
+    return db
+  }
+
+  try {
+    await sequelize.authenticate()
+    db.isConnected = true
+    console.log('Created a new connection.')
+  } catch (err) {
+    console.log('Failed to create connection.')
+  }
+  return db
+}
