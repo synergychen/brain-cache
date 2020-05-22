@@ -14,7 +14,14 @@ provider:
     DB_HOST: ${self:custom.secrets.DB_HOST}
     DB_PORT: ${self:custom.secrets.DB_PORT}
 functions:
-  # Meal Plan
+  createPage:
+    handler: handler.createPage
+    name: ${self:service}-createPage
+    events:
+      - http:
+          path: pages
+          method: post
+          cors: true
   search:
     handler: handler.search
     name: ${self:service}-search
