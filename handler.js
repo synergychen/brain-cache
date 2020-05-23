@@ -1,6 +1,22 @@
 const connection = require('./models/index')
 const { successResponse, errorResponse } = require('./handler-helpers')
 
+module.exports.findPage = async (event) => {
+  try {
+    const { title, url } = event.queryStringParameters
+    const { Page } = await connection()
+    let payload = {}
+    if (title) { payload.title = title }
+    if (url) { payload.url = url }
+    const page = await Page.findOne({
+      where: payload
+    })
+    return successResponse(page)
+  } catch (err) {
+    return errorResponse(err, event)
+  }
+}
+
 module.exports.createPage = async (event) => {
   try {
     const body = JSON.parse(event.body)

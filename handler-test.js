@@ -1,6 +1,23 @@
 require('dotenv').config()
 const handler = require('./handler')
 
+const findPage = () => {
+  handler.findPage(
+    {
+      queryStringParameters: {
+        title: 'skip - Google Search',
+        url:
+          'https://www.google.com/search?sxsrf=ALeKk01HlX9XTteWcd0sHtA9aFidc_6bmw%3A1590257907440&ei=82jJXtq4Go7K_Qbt0ojgDw&q=skip&oq=skip&gs_lcp=CgZwc3ktYWIQAzIECCMQJzIHCAAQFBCHAjIHCAAQFBCHAjICCAAyBAgAEEMyAggAMgIIADICCAAyAggAMgIIADoECAAQRzoFCAAQkQI6BQgAEIMBUPW8AVjNwAFg4sEBaABwAngAgAFQiAGWApIBATSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwia_rGtzMrpAhUOZd8KHW0pAvwQ4dUDCAw&uact=5',
+      },
+    }, // event
+    {}, //content
+    function (data, ss) {
+      //callback function with two arguments
+      console.log(data, ss)
+    }
+  )
+}
+
 const createPage = () => {
   handler.createPage(
     {
@@ -39,4 +56,4 @@ const search = () => {
   )
 }
 
-search()
+findPage()
