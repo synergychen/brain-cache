@@ -19,7 +19,7 @@ module.exports.search = async (event) => {
     const models = await connection()
     const results = await models.sequelize.query(
       `
-      SELECT title, content, ts_rank_cd(_search, query) AS rank
+      SELECT title, url, ts_rank_cd(_search, query) AS rank
       FROM pages, to_tsquery(:query) query
       WHERE query @@ _search
       ORDER BY rank DESC
