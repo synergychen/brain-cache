@@ -17,12 +17,24 @@ module.exports.findPage = async (event) => {
   }
 }
 
-module.exports.createPage = async (event) => {
+module.exports.star = async (event) => {
   try {
     const body = JSON.parse(event.body)
     const { Page } = await connection()
     const result = await Page.create(body)
     return successResponse(result)
+  } catch (err) {
+    return errorResponse(err, event)
+  }
+}
+
+module.exports.unstar = async (event) => {
+  try {
+    const { title } = event.queryStringParameters
+    const { Page } = await connection()
+    const page = await Page.findOne({ where: { title } })
+    await Page.destroy({ where: { id: page.id } })
+    return successResponse({ deleted: true })
   } catch (err) {
     return errorResponse(err, event)
   }

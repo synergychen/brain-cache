@@ -22,13 +22,21 @@ functions:
           path: pages/search
           method: get
           cors: true
-  createPage:
-    handler: handler.createPage
-    name: ${self:service}-createPage
+  star:
+    handler: handler.star
+    name: ${self:service}-star
     events:
       - http:
-          path: pages
+          path: star
           method: post
+          cors: true
+  unstar:
+    handler: handler.unstar
+    name: ${self:service}-unstar
+    events:
+      - http:
+          path: unstar
+          method: delete
           cors: true
   search:
     handler: handler.search
