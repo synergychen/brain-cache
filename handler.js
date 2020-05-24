@@ -9,7 +9,8 @@ module.exports.findPage = async (event) => {
     if (title) { payload.title = title }
     if (url) { payload.url = url }
     const page = await Page.findOne({
-      where: payload
+      where: payload,
+      attributes: ['title', 'url']
     })
     return successResponse(page)
   } catch (err) {
