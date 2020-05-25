@@ -38,6 +38,14 @@ functions:
           path: unstar
           method: delete
           cors: true
+  highlight:
+    handler: handler.highlight
+    name: ${self:service}-highlight
+    events:
+      - http:
+          path: pages/{id}/highlight
+          method: post
+          cors: true
   search:
     handler: handler.search
     name: ${self:service}-search

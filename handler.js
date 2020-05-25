@@ -10,8 +10,9 @@ module.exports.findPage = async (event) => {
     if (url) { payload.url = url }
     const page = await Page.findOne({
       where: payload,
-      attributes: ['title', 'url']
+      attributes: ['title', 'url', 'metadata']
     })
+    console.log(page)
     return successResponse(page)
   } catch (err) {
     return errorResponse(err, event)
@@ -36,6 +37,22 @@ module.exports.unstar = async (event) => {
     const page = await Page.findOne({ where: { title } })
     await Page.destroy({ where: { id: page.id } })
     return successResponse({ deleted: true })
+  } catch (err) {
+    return errorResponse(err, event)
+  }
+}
+
+module.exports.highlight = async (event) => {
+  try {
+    const { id } = event.pathParameters
+    const { text }= JSON.parse(event.body)
+    const { Page } = await connection()
+    const page = await Page.findOne({ where: { id }, attributes: ['id', 'metadata'] })
+    let metadata = page.metadata
+    metadata.highlights.push(text)
+    page.metadata = metadata
+    page.save()
+    return successResponse(page)
   } catch (err) {
     return errorResponse(err, event)
   }
