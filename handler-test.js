@@ -56,6 +56,24 @@ const highlight = () => {
   )
 }
 
+const unhighlight = () => {
+  handler.unhighlight(
+    {
+      body: JSON.stringify({
+        text: 'weekly'
+      }),
+      pathParameters: {
+        id: 42
+      },
+    }, // event
+    {}, //content
+    function (data, ss) {
+      //callback function with two arguments
+      console.log(data, ss)
+    }
+  )
+}
+
 const search = () => {
   handler.search(
     {
@@ -74,4 +92,4 @@ const search = () => {
   )
 }
 
-highlight()
+unhighlight()

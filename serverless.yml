@@ -46,6 +46,14 @@ functions:
           path: pages/{id}/highlight
           method: post
           cors: true
+  unhighlight:
+    handler: handler.unhighlight
+    name: ${self:service}-unhighlight
+    events:
+      - http:
+          path: pages/{id}/unhighlight
+          method: post
+          cors: true
   search:
     handler: handler.search
     name: ${self:service}-search

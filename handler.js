@@ -10,7 +10,7 @@ module.exports.findPage = async (event) => {
     if (url) { payload.url = url }
     const page = await Page.findOne({
       where: payload,
-      attributes: ['title', 'url', 'metadata']
+      attributes: ['id', 'title', 'url', 'metadata']
     })
     console.log(page)
     return successResponse(page)
@@ -23,8 +23,8 @@ module.exports.star = async (event) => {
   try {
     const body = JSON.parse(event.body)
     const { Page } = await connection()
-    const result = await Page.create(body)
-    return successResponse(result)
+    const { id, title, url, metadata } = await Page.create(body)
+    return successResponse({ id, title, url, metadata })
   } catch (err) {
     return errorResponse(err, event)
   }
@@ -45,11 +45,30 @@ module.exports.unstar = async (event) => {
 module.exports.highlight = async (event) => {
   try {
     const { id } = event.pathParameters
-    const { text }= JSON.parse(event.body)
+    const { text } = JSON.parse(event.body)
     const { Page } = await connection()
-    const page = await Page.findOne({ where: { id }, attributes: ['id', 'metadata'] })
+    const page = await Page.findOne({ where: { id }, attributes: ['id', 'title', 'url', 'metadata'] })
     let metadata = page.metadata
+    if (metadata.highlights.indexOf(text) > -1) {
+      return successResponse(page)
+    }
     metadata.highlights.push(text)
+    page.metadata = metadata
+    page.save()
+    return successResponse(page)
+  } catch (err) {
+    return errorResponse(err, event)
+  }
+}
+
+module.exports.unhighlight = async (event) => {
+  try {
+    const { id } = event.pathParameters
+    const { text } = JSON.parse(event.body)
+    const { Page } = await connection()
+    const page = await Page.findOne({ where: { id }, attributes: ['id', 'title', 'url', 'metadata'] })
+    let metadata = page.metadata
+    metadata.highlights = metadata.highlights.filter(h => h !== text)
     page.metadata = metadata
     page.save()
     return successResponse(page)
