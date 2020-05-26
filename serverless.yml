@@ -27,7 +27,7 @@ functions:
     name: ${self:service}-star
     events:
       - http:
-          path: star
+          path: pages/star
           method: post
           cors: true
   unstar:
@@ -35,7 +35,7 @@ functions:
     name: ${self:service}-unstar
     events:
       - http:
-          path: unstar
+          path: pages/{id}/unstar
           method: delete
           cors: true
   highlight:

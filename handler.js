@@ -32,11 +32,10 @@ module.exports.star = async (event) => {
 
 module.exports.unstar = async (event) => {
   try {
-    const { title } = event.queryStringParameters
+    const { id } = event.pathParameters
     const { Page } = await connection()
-    const page = await Page.findOne({ where: { title } })
-    await Page.destroy({ where: { id: page.id } })
-    return successResponse({ deleted: true })
+    await Page.destroy({ where: { id } })
+    return successResponse({ deleted: true, id })
   } catch (err) {
     return errorResponse(err, event)
   }
