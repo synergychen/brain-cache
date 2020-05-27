@@ -1,6 +1,6 @@
 const vectorName = '_search'
 const searchObjects = {
-  pages: ['title', 'content'],
+  pages: ['title', 'content', 'metadata'],
 }
 
 module.exports = {
@@ -58,7 +58,7 @@ module.exports = {
                 `
                 CREATE TRIGGER ${table}_vector_update
                 BEFORE INSERT OR UPDATE ON ${table}
-                FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.english', ${searchObjects[
+                FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.simple_english', ${searchObjects[
                   table
                 ].join(', ')});
                 `,
