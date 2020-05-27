@@ -1,9 +1,9 @@
 const connection = require('./models/index')
 const { successResponse, errorResponse } = require('./handler-helpers')
 
-module.exports.findPage = async (event) => {
+module.exports.searchBy = async (event) => {
   try {
-    const { title, url } = event.queryStringParameters
+    const { title, url } = JSON.parse(event.body)
     const { Page } = await connection()
     let payload = {}
     if (title) { payload.title = title }

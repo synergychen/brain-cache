@@ -14,13 +14,13 @@ provider:
     DB_HOST: ${self:custom.secrets.DB_HOST}
     DB_PORT: ${self:custom.secrets.DB_PORT}
 functions:
-  findPage:
-    handler: handler.findPage
-    name: ${self:service}-findPage
+  searchBy:
+    handler: handler.searchBy
+    name: ${self:service}-searchBy
     events:
       - http:
           path: pages/search
-          method: get
+          method: post
           cors: true
   star:
     handler: handler.star

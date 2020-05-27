@@ -1,8 +1,8 @@
 require('dotenv').config()
 const handler = require('./handler')
 
-const findPage = () => {
-  handler.findPage(
+const searchBy = () => {
+  handler.searchBy(
     {
       queryStringParameters: {
         title: 'skip - Google Search',
