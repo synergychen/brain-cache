@@ -1,6 +1,6 @@
 const vectorName = '_search'
 const searchObjects = {
-  pages: ['title', 'content', 'metadata'],
+  pages: ['title', 'content'],
 }
 
 module.exports = {
@@ -16,27 +16,11 @@ module.exports = {
               `,
               { transaction: t }
             )
-            // Create custom search dictionary and configuration
-            .then(() =>
-              queryInterface.sequelize.query(
-                `
-                CREATE TEXT SEARCH DICTIONARY simple_english
-                  (TEMPLATE = pg_catalog.simple, STOPWORDS = english);
-
-                CREATE TEXT SEARCH CONFIGURATION simple_english
-                  (copy = english);
-                ALTER TEXT SEARCH CONFIGURATION simple_english
-                  ALTER MAPPING FOR asciihword, asciiword, hword, hword_asciipart, hword_part, word
-                  WITH simple_english;
-                `,
-                { transaction: t }
-              )
-            )
             // Update tsvector column based on url and content
             .then(() =>
               queryInterface.sequelize.query(
                 `
-                UPDATE ${table} SET ${vectorName} = to_tsvector('simple_english', ${searchObjects[
+                UPDATE ${table} SET ${vectorName} = to_tsvector('simple', ${searchObjects[
                   table
                 ].join(" || ' ' || ")});
                 `,
@@ -58,7 +42,7 @@ module.exports = {
                 `
                 CREATE TRIGGER ${table}_vector_update
                 BEFORE INSERT OR UPDATE ON ${table}
-                FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.simple_english', ${searchObjects[
+                FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.simple', ${searchObjects[
                   table
                 ].join(', ')});
                 `,
@@ -87,16 +71,6 @@ module.exports = {
               queryInterface.sequelize.query(
                 `
                 DROP INDEX ${table}_search;
-                `,
-                { transaction: t }
-              )
-            )
-            // Drop search dictionary and configuration
-            .then(() =>
-              queryInterface.sequelize.query(
-                `
-                DROP TEXT SEARCH CONFIGURATION simple_english;
-                DROP TEXT SEARCH DICTIONARY simple_english;
                 `,
                 { transaction: t }
               )
