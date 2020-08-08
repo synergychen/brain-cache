@@ -4,6 +4,8 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
+  memorySize: 128 # Default 1024 MB
+  timeout: 10 # Default 6 seconds
   region: us-east-1
   httpApi:
     cors: true

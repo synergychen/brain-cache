@@ -12,7 +12,6 @@ module.exports.searchBy = async (event) => {
       where: payload,
       attributes: ['id', 'title', 'url', 'metadata']
     })
-    console.log(page)
     return successResponse(page)
   } catch (err) {
     return errorResponse(err, event)
