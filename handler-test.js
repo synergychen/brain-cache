@@ -78,7 +78,7 @@ const search = () => {
   handler.search(
     {
       body: JSON.stringify({
-        query: 'skip',
+        query: 'cloudwatch',
         limit: 10
       }),
       pathParameters: {
@@ -92,4 +92,4 @@ const search = () => {
   )
 }
 
-unhighlight()
+search()
