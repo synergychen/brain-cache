@@ -10,6 +10,9 @@ provider:
   httpApi:
     cors: true
   environment:
+    APP_NAME: ${self:custom.secrets.APP_NAME}
+    LOG_SERVER: ${self:custom.secrets.LOG_SERVER}
+    LOG_AUTH_TOKEN: ${self:custom.secrets.LOG_AUTH_TOKEN}
     DB_NAME: ${self:custom.secrets.DB_NAME}
     DB_USERNAME: ${self:custom.secrets.DB_USERNAME}
     DB_PASSWORD: ${self:custom.secrets.DB_PASSWORD}
