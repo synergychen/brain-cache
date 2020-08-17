@@ -80,7 +80,7 @@ module.exports.search = async(event, context) => {
 
 // Find a page by title or url
 module.exports.searchBy = async(event, context) => {
-  return handleRequest(searchBy, event, context)
+  return handleRequest(searchBy, event, context, false)
 }
 
 // Star a page
