@@ -1,4 +1,3 @@
-require('dotenv').config()
 const handler = require('./handler')
 
 const searchBy = () => {
@@ -79,9 +78,11 @@ const search = () => {
     {
       body: JSON.stringify({
         query: 'cloudwatch',
-        limit: 10
+        limit: 10,
       }),
-      pathParameters: {
+      pathParameters: {},
+      headers: {
+        Authorization: 'Basic YnJhaW4tY2FjaGUtYXV0aC1rZXk=',
       },
     }, // event
     {}, //content

@@ -14,6 +14,7 @@ provider:
     cors: true
   environment:
     APP_NAME: ${self:custom.secrets.APP_NAME}
+    AUTH_TOKEN: ${self:custom.secrets.AUTH_TOKEN}
     LOG_SERVER: ${self:custom.secrets.LOG_SERVER}
     LOG_AUTH_TOKEN: ${self:custom.secrets.LOG_AUTH_TOKEN}
     DB_NAME: ${self:custom.secrets.DB_NAME}
